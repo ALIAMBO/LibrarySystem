@@ -42,15 +42,24 @@ public class Main {
              user.setAge(sc.nextInt());
              sc.nextLine();
 
-             System.out.print("Please insert the book's title: ");
-             String buku = sc.nextLine();
-             user.setBookTitle(buku);
+            System.out.println("Check to see if the book is avalaible");
+            String search = sc.nextLine();
+            library.searchByTitle(search);
+
+            System.out.println("Please insert the book title to borrow");
+            String buku = sc.nextLine();
+            user.setBookTitle(buku);
+            library.borrowBook(buku, user);
+
+            user.displayDetails();
+            //System.out.print("Please insert the book's title: ");
+             
 
             //library.borrowBook(user, buku);
 
-            user.borowBook(buku);
+            //user.borowBook(buku);
             
-            user.displayDetails();
+           
             //library.getBorrowedBooksForAllUser(user, buku);
                      
        

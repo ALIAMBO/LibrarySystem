@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -7,15 +8,15 @@ public class User {
     private String name;
     private int age;
     private ArrayList<String> borrowedBook = new ArrayList<>() ;
+    ArrayList<LocalDate> borrowedDate = new ArrayList<>();
+    ArrayList<LocalDate> borrowedDue = new ArrayList<>();
     private ArrayList<Book>books = new ArrayList<>();
     private String bookTitle;
-
-   
+    Library library = new Library();
+    
     //private Map<String,LocalDate>borrowedBooksDueDates = new HashMap<>();
-
-    LocalDate dateDue = LocalDate.now().plusDays(14);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
-    long dueDate = ChronoUnit.DAYS.between(LocalDate.now(), dateDue);
+    //long dueDate = ChronoUnit.DAYS.between(LocalDate.now(), dateDue);
     
     public User(String name, int age){
         this.name = name;
@@ -50,57 +51,95 @@ public class User {
         this.bookTitle = bookTitle;
     }
 
+    public String getBook(){
+        return bookTitle;
+    }
+
+         // ---method update for all of the arraylist
+    public void updateBook(String bookTitle){
+        borrowedBook.add(bookTitle);
+    }
+
+    public void updateDate(LocalDate newDate){
+        borrowedDate.add(newDate);
+        updateDue();
+    }
+
+    public void updateDue(){
+        for(int i=0; i<borrowedDate.size(); i++){
+            LocalDate dateDue = LocalDate.now().plusDays(14);
+            borrowedDue.add(dateDue);
+        }
+    }
+    //return the book method
     public void borowBook(String bookTitle){
-        
-       if (bookTitle.equalsIgnoreCase("Harry Potter")) {
-        borrowedBook.add(bookTitle);
-        System.out.println("Book borrowed !" );
-        System.out.println("User : " + name + " Age: " + age + " Book : " + bookTitle );
-        System.out.println("Due date : " + dueDate);
-       
-       }else if (bookTitle.equalsIgnoreCase("Lord of The Ring")) {
-        borrowedBook.add(bookTitle);
-        System.out.println("Book borrowed ! " );
-        System.out.println("User : " + name + " Age: " + age + " Book : " + bookTitle );
-        System.out.println("Due date : " + dueDate);
-       
-       }else if (bookTitle.equalsIgnoreCase("Magical Girl Raising Project")) {
-        borrowedBook.add(bookTitle);
-        System.out.println("Book borrowed ! " );
-        System.out.println("User : " + name + " Age: " + age + " Book : " + bookTitle );
-        System.out.println("Due date : " + dueDate);
-       
-       }
-       else {
-        System.out.println("Book not found");
-       }
+
+    boolean found =false;
+    int i=0;
+    while(i<borrowedBook.size() && !found){
+        if(bookTitle.equalsIgnoreCase(borrowedBook.get(i))){
+            found = true;
+          
+            // LocalDate returnDate = LocalDate.now();
+            System.out.println( borrowedBook.get(i) + " has been returned");
+            borrowedBook.remove(i);
+            //checkedOverDueDates(returnDate, borrowedDue.get(i));   
+        }
+        i++;
+    }
+    if(!found){
+        System.out.println("  There is no book found in the library");
+    }
    
     }
 
     public void returnBook(String bookTitle){
+         boolean found =false;
+         int i=0;
+    while(i<borrowedBook.size() && !found){
+        if(bookTitle.equalsIgnoreCase(borrowedBook.get(i))){
+            found = true;
+            
+            // LocalDate returnDate = LocalDate.now();
+            System.out.println( borrowedBook.get(i) + " has been returned");
+            borrowedBook.remove(i);
 
-        if (bookTitle.equals("Harry Potter")) {
-
-            borrowedBook.remove(bookTitle);    
-
-        }else if (bookTitle.equals("Lord of The Ring")) {
-        
-            borrowedBook.remove(bookTitle);
-
+            //checkedOverDueDates(returnDate, borrowedDue.get(i));   
         }
-
+        i++;
+    }
+    if(!found){
+        System.out.println("  There is no book in the library");
+    }
+   
     }
 
     public String printBorrowedBooks(){
-
         return bookTitle;
-
     }
 
     public void displayDetails(){
-        
+    
+       if (!borrowedBook.isEmpty()) {
+        for(int i =0 ; i < borrowedBook.size(); i++){
 
-       
+            String bookBorrow = borrowedBook.get(i);
+            String Date = formatter.format(borrowedDate.get(i).plusDays(14));
+            System.out.println("User " + name + " has borrowed " +bookBorrow );
+            System.out.println("Due date  " + Date );
+  
+        }
+          
+       }else{
+        System.out.println("No borrowed books. ");
+    }
+   
+        //System.out.println("User: " + name +", has borrowed: " );
+              
+            //for(int i =0; i < books.size();i++){
+                
+           // }
+      
     }
 
 
