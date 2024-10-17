@@ -16,7 +16,7 @@ public class User {
     
     //private Map<String,LocalDate>borrowedBooksDueDates = new HashMap<>();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd yyyy");
-    //long dueDate = ChronoUnit.DAYS.between(LocalDate.now(), dateDue);
+   
     
     public User(String name, int age){
         this.name = name;
@@ -55,7 +55,6 @@ public class User {
         return bookTitle;
     }
 
-         // ---method update for all of the arraylist
     public void updateBook(String bookTitle){
         borrowedBook.add(bookTitle);
     }
@@ -121,26 +120,20 @@ public class User {
     public void displayDetails(){
     
        if (!borrowedBook.isEmpty()) {
+        System.out.println("-----------------------------------");
         for(int i =0 ; i < borrowedBook.size(); i++){
-
             String bookBorrow = borrowedBook.get(i);
             String Date = formatter.format(borrowedDate.get(i).plusDays(14));
-            System.out.println("User " + name + " has borrowed " +bookBorrow );
+            long dueDate = ChronoUnit.DAYS.between(borrowedDate.get(i),LocalDate.now().plusDays(14));
+            System.out.println("User " + name + " has borrowed the book " +bookBorrow );
             System.out.println("Due date  " + Date );
-  
+            System.out.println("Due in " +dueDate+ " days. " );
         }
           
        }else{
         System.out.println("No borrowed books. ");
     }
-   
-        //System.out.println("User: " + name +", has borrowed: " );
-              
-            //for(int i =0; i < books.size();i++){
-                
-           // }
-      
-    }
 
+    }
 
 }
